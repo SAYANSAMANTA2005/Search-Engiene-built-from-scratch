@@ -5,6 +5,8 @@
 #include "config/config.h"
 #include "ReadFile/Readfile.h"
 #include "Database/Database.h"
+#include "Database/SearchWord/searchword.h"
+#include "Search/Single_Word/Search.h"
 #include<sqlite3.h>
 
 using namespace std;
@@ -73,11 +75,16 @@ int main()
     CreateTables(db);
    
 
+  // searching
+    Search_in_Database(db);
+
+
+
     //user input directory 
     string root;
     cout<<"Enter The Directory U Want to Traverse: ";
     getline(cin,root);
-   Directory_Explorer(root, db);   
+    Directory_Explorer(root, db);   
     
 
    //closing db

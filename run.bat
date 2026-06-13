@@ -1,6 +1,14 @@
 @echo off
 
-g++ Crawler.cpp tokenize/tokeniser.cpp ReadFile/Readfile.cpp tokenize/stemming/stemmer.cpp Database/Database.cpp -I "..\SQLite_Search_Engiene\vcpkg\installed\x64-windows\include" -L "..\SQLite_Search_Engiene\vcpkg\installed\x64-windows\lib" -std=c++17 -lsqlite3 -static -o search_engine.exe
+g++ ^
+Crawler.cpp ^
+tokenize/tokeniser.cpp ^
+ReadFile/Readfile.cpp ^
+tokenize/stemming/stemmer.cpp ^
+Database/Database.cpp ^
+Database/SearchWord/searchword.cpp ^
+Search/Single_Word/Search.cpp ^
+-I include -L lib -std=c++17 -lsqlite3 -static -o search_engine.exe
 
 if %errorlevel% neq 0 (
     echo Build FAILED!

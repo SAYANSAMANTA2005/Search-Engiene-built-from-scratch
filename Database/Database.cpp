@@ -1,4 +1,5 @@
 #include "Database.h"
+#include "SearchWord/searchword.h"
 
 #include <iostream>
 

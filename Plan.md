@@ -39,7 +39,8 @@ ans-->
 workflow of code -->
 
  user given an directory to iterate --> it recursively goes to all the files and directories --> check
- if file extention is valid --> calls tokeniser(here we dont bo stemming) --> tokeniser tokenise the file --> tokeniser removes punctuation and calls stemmer -->stemmer stems the  words --> tokeniser sends words to inverted index --> inverted indexer sends the words to sql data base for storing & later answering of queries .
+ if file extention is valid --> calls tokeniser(here we dont bo stemming) --> tokeniser tokenise the file --> tokeniser removes punctuation and calls stemmer -->stemmer stems the  words --> tokeniser check & removes Stop words -->
+  sends filtered & stemmed words to inverted index --> inverted indexer  sends the words to sql data base for storing & later answering of queries .
 
 
 

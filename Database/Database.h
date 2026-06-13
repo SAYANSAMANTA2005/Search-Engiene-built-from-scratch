@@ -2,6 +2,7 @@
 
 #include <sqlite3.h>
 #include <string>
+#include "SearchWord/searchword.h"
 
 sqlite3* OpenDB();
 

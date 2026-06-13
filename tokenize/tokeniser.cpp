@@ -1,5 +1,6 @@
 #include "tokeniser.h"
 #include "stemming/stemmer.h"
+#include "../config/config.h"
 #include<vector>
 #include <string>
 #include <cctype>
@@ -29,7 +30,12 @@ vector<string> tokenize(const string& text)
             {
             //stemming word before storing it
             string Current_Word=stem(cur);
-
+           
+            //avoids to store frequent words ie stop words
+            if(STOP_WORDS.count(Current_Word)){
+                cur.clear();
+                continue;
+            }
 
             words.push_back(Current_Word);
             cur.clear();
@@ -40,8 +46,14 @@ vector<string> tokenize(const string& text)
     if(!cur.empty()){
         //stemming word before storing it
         string Current_Word=stem(cur);
-
-        words.push_back(Current_Word);
+            //avoids to store frequent words ie stop words
+            if(STOP_WORDS.count(Current_Word)){
+                cur.clear();
+            }
+            else{
+               words.push_back(Current_Word);
+            }
+         
         cur.clear();
     }
     

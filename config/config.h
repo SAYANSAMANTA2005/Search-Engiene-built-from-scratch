@@ -143,3 +143,24 @@ SKIP_DIRECTORIES = {
     ".fseventsd",
     ".Spotlight-V100"
 };
+
+inline const std::unordered_set<std::string> STOP_WORDS = {
+    // Articles & Conjunctions
+    "a", "an", "the", "and", "but", "or", "nor", "for", "yet", "so",
+    
+    // Prepositions
+    "in", "on", "at", "to", "from", "by", "with", "of", "about", "into", "through",
+    
+    // Pronouns
+    "i", "me", "my", "we", "our", "you", "your", "he", "him", "his", "she", "her", 
+    "it", "its", "they", "them", "their", "this", "that", "these", "those",
+    
+    // Verbs
+    "is", "am", "are", "was", "were", "be", "been", "being", "have", "has", "had", 
+    "do", "does", "did", "can", "could", "will", "would", "should",
+    
+    // Code & Doc Specific Layout Junk
+    "todo", "fixme", "note", "example", "sample", "test", "demo", "placeholder",
+    "param", "return", "returns", "function", "method", "class", "variable",
+    "page", "chapter", "section", "figure", "fig", "table", "copyright"
+};
