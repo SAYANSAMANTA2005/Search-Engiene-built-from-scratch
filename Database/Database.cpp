@@ -1,5 +1,6 @@
 #include "Database.h"
 #include "SearchWord/searchword.h"
+#include "Chunked_Bulk_Insertion/BulkInsert.h"
 
 #include <iostream>
 
@@ -41,17 +42,17 @@ void CreateTables(sqlite3* db)
         file_path TEXT UNIQUE NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS inverted_index
-    (
-        word TEXT NOT NULL,
-        file_id INTEGER NOT NULL,
+   CREATE TABLE IF NOT EXISTS inverted_index
+   (
+       word TEXT NOT NULL,
+       file_id INTEGER NOT NULL,
+       frequency INTEGER NOT NULL DEFAULT 0,
 
-        UNIQUE(word,file_id),
+       PRIMARY KEY(word,file_id),
 
-        FOREIGN KEY(file_id)
-            REFERENCES files(file_id)
-    );
-
+       FOREIGN KEY(file_id)
+          REFERENCES files(file_id)
+);
     )";
 
     char* err = nullptr;

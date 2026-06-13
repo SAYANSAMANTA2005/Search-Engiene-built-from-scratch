@@ -4,7 +4,8 @@
 #include <unordered_map>
 #include <string>
 using namespace std;
-const size_t LIMIT = 1024;
+const size_t LIMIT = 1024;//1e3
+const int MAX_UNIQUE_WORDS_PER_FILE = 100000;//1e5
 
 inline long long file_id = 0;
 
@@ -41,7 +42,14 @@ const std::unordered_set<std::string> text_extensions = {
     ".sql",
 
     // Shell scripts
-    ".sh",".bat",".ps1"
+    ".sh",".bat",".ps1",
+
+    //pdf files --> IS IGNORED BCZ THEY NEEED 
+    // a seperate new pipeline to extract text from them
+   // ".pdf"
+
+   // images
+   //".jpg",".png","jpeg","gif","bmp","svg","webp"
 };
 
 inline const std::unordered_set<std::string>
@@ -141,7 +149,10 @@ SKIP_DIRECTORIES = {
     ".Trashes",
     "RECYCLER",
     ".fseventsd",
-    ".Spotlight-V100"
+    ".Spotlight-V100",
+
+    "vcpkg",
+    ".vcpkg"
 };
 
 inline const std::unordered_set<std::string> STOP_WORDS = {

@@ -5,5 +5,5 @@
 using namespace std;
 
 
-void Search_in_Database(sqlite3* db);
+void Search_in_Database(sqlite3* db,bool UserWant_To_Search);
     

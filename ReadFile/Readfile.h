@@ -3,7 +3,9 @@
 #include<bits/stdc++.h>
 #include <filesystem>
 #include "../tokenize/tokeniser.h"
+#include "ChunkedProcessing/Chunked_Reading.h"
 #include<sqlite3.h>
+
 using namespace std;
 using namespace filesystem;
 

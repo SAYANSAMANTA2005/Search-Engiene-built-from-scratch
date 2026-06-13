@@ -3,10 +3,13 @@
 g++ ^
 Crawler.cpp ^
 tokenize/tokeniser.cpp ^
-ReadFile/Readfile.cpp ^
 tokenize/stemming/stemmer.cpp ^
+ReadFile/Readfile.cpp ^
+ReadFile/ChunkedProcessing/Chunked_Reading.cpp ^
 Database/Database.cpp ^
 Database/SearchWord/searchword.cpp ^
+Database/Chunked_Bulk_Insertion/BulkInsert.cpp ^
+Database/Chunked_Bulk_Insertion/DeleteFilePostings.cpp ^
 Search/Single_Word/Search.cpp ^
 -I include -L lib -std=c++17 -lsqlite3 -static -o search_engine.exe
 
