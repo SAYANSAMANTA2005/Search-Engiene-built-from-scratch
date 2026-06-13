@@ -6,7 +6,10 @@
 #include "ReadFile/Readfile.h"
 #include "Database/Database.h"
 #include "Database/SearchWord/searchword.h"
+#include "Database/ModifiedTime/ModifiedTime.h"
 #include "Search/Single_Word/Search.h"
+#include "Reindexing/FileChangeDetector.h"
+#include "Reindexing/ReindexFile.h"
 #include <chrono>
 #include<sqlite3.h>
 
@@ -15,7 +18,65 @@ using namespace filesystem;
 
 auto start_time = std::chrono::steady_clock::now();
 
+/*
 
+Directory_Explorer(root, db)
+│
+├── Start recursive traversal from root
+│
+├── For every filesystem entry
+│
+├── Is it a directory?
+│      │
+│      ├── YES
+│      │      │
+│      │      ├── Get directory name
+│      │      │
+│      │      ├── Check SKIP_DIRECTORIES
+│      │      │
+│      │      ├── If present
+│      │      │      │
+│      │      │      ├── disable_recursion_pending()
+│      │      │      ├── Print "Skipping..."
+│      │      │      └── Ignore entire subtree
+│      │      │
+│      │      └── Else continue recursion
+│      │
+│      └── NO
+│
+├── Is it a regular file?
+│      │
+│      ├── NO
+│      │      └── Ignore
+│      │
+│      └── YES
+│
+├── Get file extension
+│
+├── Check text_extensions
+│      │
+│      ├── Not supported
+│      │      └── Ignore file
+│      │
+│      └── Supported
+              │
+
+              
+              ├── GetOrCreateFileId()
+              │
+              ├── DeleteFilePostings()
+              │
+              ├── Read_File2()
+              │
+              ├── Read file chunk-by-chunk
+              ├── Tokenize
+              ├── Build frequency map
+              └── BulkInsert into DB
+
+
+
+
+*/
 
 void Directory_Explorer(string root, sqlite3* db){
     
@@ -39,26 +100,23 @@ void Directory_Explorer(string root, sqlite3* db){
   
 
         if(entry.is_regular_file()){ 
-            if(file_id%10000==0)
-           cout<<"File :"<<Path<<endl;
+       
             // Reads valide type file 
             string extension=entry.path().extension().string();
 
 
                if(text_extensions.count(extension)){
               //updating maps & only stores valide & uuser's predifined types files
-                file_id = GetOrCreateFileId(db,Path);
-            //file_id is defined in cofig/config.h
-            // path_to_file_id[Path] = file_id;
-         // file_id_to_path[file_id] = Path;
-             
-            
-            DeleteFilePostings(db,file_id);
-                //Read_file2 --> sends to tokenize by buffer of a fixed size
-              Read_File2(Path,db,file_id);
+           
+              //possible issue is when a Path is not present in DB may create issues
+             if(Need_To_Change_OR_Create_indexing(db,Path)){
+                  ReindexFile(db,Path);
 
-            if(file_id%100==0){
-                 cout<<" PROCESSED Relevant files count : "<<file_id<<endl;
+
+            if(file_id%1000==0){
+
+                cout<<" File: "<<Path<<"  "<<endl;
+                cout<<" PROCESSED Relevant files count : "<<file_id<<endl;
 
             auto now = std::chrono::steady_clock::now();
 
@@ -67,8 +125,16 @@ void Directory_Explorer(string root, sqlite3* db){
 
             cout<< "Processed "<< file_id<< " files | Time = " << elapsed.count()<< " ms"<< '\n';
 
-            start_time = now;   // restart timer for next 100 files
+            start_time = now;   // restart timer for next 10000 files
             }
+
+
+             }
+            
+          
+
+
+
            
             }
         }
@@ -123,14 +189,45 @@ int main()
     try { Directory_Explorer(root, db);}
     catch(const std::exception& e){cerr << "Exception: "<< e.what()<< '\n';}
     
+        cout<<endl;
+    cout<<" TOTAL Relevant Files count: "<<file_id<<endl;
 
-   //closing db
-    CloseDB(db);
+
+
+  
         }
         else break;
     }
 
-    cout<<endl;
-    cout<<" TOTAL Relevant Files count: "<<file_id<<endl;
+     //closing db
+    CloseDB(db);
+
+
     return 0;
 }
+
+
+/*
+
+Directory_Explorer
+        │
+        ▼
+Get current modified_time
+        │
+        ▼
+Get DB modified_time
+        │
+        ▼
+      Same?
+        │
+    ┌───┴────┐
+    │        │
+   YES      NO
+    │        │
+    ▼        ▼
+
+ Skip    Re-index File
+
+
+
+*/

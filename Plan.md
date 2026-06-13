@@ -44,6 +44,13 @@ workflow of code -->
   --> inverted indexer  sends the words to sql data base for storing &
    later answering of queries --> Implemented Ranked Search of single Word (frequency based ans ordering of file paths, among files containing searched word)
 
+     --> implemeted incremental indexing ( using file Change Detector & last modified time )  startegy that saves the programme to Read & Process a lot of programmes
+
+
+      ** HUGE ACHIVEMENT** --> AFTER APPLYING THIS it processed a 3lakh+ files's containing Folder(16.5 Gb Folder) in 7.5 seconds
+      --> Before Implementing **incremental indexing** it took 7 minutes to do that
+          **60 TIMES FASTER**
+
 
 
 user search 

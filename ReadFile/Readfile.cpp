@@ -25,14 +25,9 @@ void Read_File(string path,sqlite3* db,long long file_id){
     }
     string line;
     while(getline(file,line)){
-
-
-        //instead of tokenizing whole file ,
-        // This Tokenize each line ,which reduce memory usage
-        //and faster for large files 
-
-
-        
+     //instead of tokenizing whole file ,
+     // This Tokenize each line ,which reduce memory usage
+      //and faster for large files 
     vector<string> words = tokenize(line);
 
     // for each word ,insert in Inverted Index 
@@ -40,8 +35,6 @@ void Read_File(string path,sqlite3* db,long long file_id){
     for(auto &word : words) { 
         InsertWord(db,word,file_id);
     }
-
-
     }
     file.close();
 }

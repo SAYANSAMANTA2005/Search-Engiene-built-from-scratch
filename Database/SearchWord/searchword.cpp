@@ -1,8 +1,10 @@
 #include "searchword.h"
+#include "../../config/config.h"
 #include <iostream>
 #include<sqlite3.h>
 #include<string.h>
 #include <chrono>
+
 using namespace std;
 
 auto start_time_db = std::chrono::steady_clock::now();
@@ -69,17 +71,26 @@ Console Output
 
 
 */
+int cnt=0;
 static int callback(
     void* data,
     int argc,
     char** argv,
     char** colNames)
 {
+    if(cnt<=MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH)
     cout << argv[0] << " (" << argv[1] << " matches)"<< '\n';
+    cnt++;
     return 0;
 }
 
 void search_word(sqlite3* db,string &word){
+
+
+cout<<endl;
+cout<<" Top [ " << MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH << " ] files found :"<<endl;
+
+
 
 start_time_db = std::chrono::steady_clock::now();
  std::string sql=
@@ -98,15 +109,22 @@ start_time_db = std::chrono::steady_clock::now();
         cerr << "SQL = " << sql << '\n';
         sqlite3_free(err);
      }
-
+         
+           
+              //printing res
             auto now = std::chrono::steady_clock::now();
 
             auto elapsed =
             std::chrono::duration_cast<std::chrono::milliseconds>( now - start_time_db);
+            cout<<endl;
 
-            cout<< "Searched Word in  "<< 
+            cout<< "      Found in "<< cnt <<" files\n";
+            cnt=0;
+
+            cout<< "           Searched Word in  "<< 
             " Time Taken:" << elapsed.count()<< " ms"<< '\n';
 
+            
             start_time_db = now;
             
 

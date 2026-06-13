@@ -1,7 +1,7 @@
 #include "../Database.h"
 #include "../SearchWord/searchword.h"
 #include "BulkInsert.h"
-
+#include <sqlite3.h>
 #include <iostream>
 #include <unordered_map>
 

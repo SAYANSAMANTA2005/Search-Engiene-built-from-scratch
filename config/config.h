@@ -6,7 +6,7 @@
 using namespace std;
 const size_t LIMIT = 1024;//1e3
 const int MAX_UNIQUE_WORDS_PER_FILE = 100000;//1e5
-
+const int MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH=3;//
 inline long long file_id = 0;
 
 

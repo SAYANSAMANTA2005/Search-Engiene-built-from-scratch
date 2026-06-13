@@ -50,7 +50,7 @@ Directory Traversal
     // and coverts it into lower case
     for(auto it:s){
         if(it==' ')break;
-        if(it<='9'&& it>='0')continue;
+        //if(it<='9'&& it>='0')continue;
         if(isalnum(it)){
             res+=tolower(it);
         } 

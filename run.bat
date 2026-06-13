@@ -10,7 +10,10 @@ Database/Database.cpp ^
 Database/SearchWord/searchword.cpp ^
 Database/Chunked_Bulk_Insertion/BulkInsert.cpp ^
 Database/Chunked_Bulk_Insertion/DeleteFilePostings.cpp ^
+Database/ModifiedTime/ModifiedTime.cpp ^
 Search/Single_Word/Search.cpp ^
+Reindexing/FileChangeDetector.cpp ^
+Reindexing/ReindexFile.cpp ^
 -I include -L lib -std=c++17 -lsqlite3 -static -o search_engine.exe
 
 if %errorlevel% neq 0 (

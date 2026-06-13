@@ -8,8 +8,8 @@ using namespace std;
 
 sqlite3* OpenDB()
 {
-    sqlite3* db = nullptr;
 
+    sqlite3* db = nullptr;
     int rc =
         sqlite3_open(
             "search_engine.db",
@@ -35,15 +35,15 @@ sqlite3* OpenDB()
 void CreateTables(sqlite3* db)
 {
     const char* sql = R"(
-
     CREATE TABLE IF NOT EXISTS files
-    (
+    (   
         file_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        file_path TEXT UNIQUE NOT NULL
+        file_path TEXT UNIQUE NOT NULL,
+        modified_time INTEGER NOT NULL
     );
 
    CREATE TABLE IF NOT EXISTS inverted_index
-   (
+   (   
        word TEXT NOT NULL,
        file_id INTEGER NOT NULL,
        frequency INTEGER NOT NULL DEFAULT 0,
@@ -84,7 +84,8 @@ void CreateTables(sqlite3* db)
 
 long long GetOrCreateFileId(
     sqlite3* db,
-    const std::string& path
+    const std::string& path,
+    long long modified_time
 )
 {
     sqlite3_stmt* stmt = nullptr;
@@ -96,7 +97,7 @@ long long GetOrCreateFileId(
     const char* select_sql =
         "SELECT file_id "
         "FROM files "
-        "WHERE file_path = ?";
+        "WHERE file_path = ?;";
 
     sqlite3_prepare_v2(
         db,
@@ -117,10 +118,7 @@ long long GetOrCreateFileId(
     if(sqlite3_step(stmt) == SQLITE_ROW)
     {
         long long file_id =
-            sqlite3_column_int64(
-                stmt,
-                0
-            );
+            sqlite3_column_int64(stmt, 0);
 
         sqlite3_finalize(stmt);
 
@@ -135,8 +133,9 @@ long long GetOrCreateFileId(
     //--------------------------------------------------
 
     const char* insert_sql =
-        "INSERT INTO files(file_path) "
-        "VALUES(?)";
+        "INSERT INTO files "
+        "(file_path, modified_time) "
+        "VALUES(?, ?);";
 
     sqlite3_prepare_v2(
         db,
@@ -152,6 +151,12 @@ long long GetOrCreateFileId(
         path.c_str(),
         -1,
         SQLITE_TRANSIENT
+    );
+
+    sqlite3_bind_int64(
+        stmt,
+        2,
+        modified_time
     );
 
     if(sqlite3_step(stmt) != SQLITE_DONE)

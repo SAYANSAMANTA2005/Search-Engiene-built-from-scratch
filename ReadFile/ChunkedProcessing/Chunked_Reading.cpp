@@ -40,7 +40,6 @@ void Incrementing_Word_freq(string &word,unordered_map<string,int>& freq,long lo
 
 void Read_File2(string path,sqlite3* db,long long file_id){
     ifstream file(path);
-   
 
     // ERROR Handeling
     if(!file.is_open()){
@@ -51,14 +50,11 @@ void Read_File2(string path,sqlite3* db,long long file_id){
     // used to store frequency of words in a file
     unordered_map<string,int> freq;
 
-
     string word;
     string buffer;
     while(file>>word){
         //adding each word to buffer string & creating space btw words by " "
       buffer+=word+" ";
-
-
 
 // Flush after adding a complete word.
 // Buffer size may exceed LIMIT slightly,
