@@ -25,8 +25,11 @@ bool Need_To_Change_OR_Create_indexing(sqlite3* db,std::string &Path){
           auto ftime =filesystem::last_write_time(Path);
           auto modified_time = chrono::duration_cast<chrono::seconds >(ftime.time_since_epoch()).count();            
           auto DB_Modified_time=get_db_last_modified(db,Path);
+          //DB_Modified_time =-1 --> means first time we visitting this file
 
-          if(llabs(modified_time)>DB_Modified_time){
+
+
+          if(((DB_Modified_time== -1)||(llabs(modified_time)<DB_Modified_time))){
         //   cout<<"Do modifiy(true)"<<endl;
              return true;// u need to index this file
           }

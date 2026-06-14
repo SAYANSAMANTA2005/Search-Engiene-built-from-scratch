@@ -5,8 +5,7 @@
 #include "config/config.h"
 #include "ReadFile/Readfile.h"
 #include "Database/Database.h"
-#include "Database/SearchWord/searchword.h"
-#include "Database/ModifiedTime/ModifiedTime.h"
+
 #include "Search/Single_Word/Search.h"
 #include "Reindexing/FileChangeDetector.h"
 #include "Reindexing/ReindexFile.h"
@@ -17,6 +16,8 @@ using namespace std;
 using namespace filesystem;
 
 auto start_time = std::chrono::steady_clock::now();
+
+int Processed_files_count = 0;
 
 /*
 
@@ -109,14 +110,19 @@ void Directory_Explorer(string root, sqlite3* db){
               //updating maps & only stores valide & uuser's predifined types files
            
               //possible issue is when a Path is not present in DB may create issues
+
              if(Need_To_Change_OR_Create_indexing(db,Path)){
+                
                   ReindexFile(db,Path);
 
+                Processed_files_count++;
 
-            if(file_id%1000==0){
+                if(Processed_files_count%INTERVAL_OF_PROCESSED_FILE_SHOW==0){
+                cout<<"Current File ID : "<<file_id<<" /  File: "<<Path <<endl;
+                cout<<" PROCESSED Relevant files count : "<<Processed_files_count<<endl;
+                file_id=0;//reseting file_id for next chunk of 10000 files
 
-                cout<<" File: "<<Path<<"  "<<endl;
-                cout<<" PROCESSED Relevant files count : "<<file_id<<endl;
+
 
             auto now = std::chrono::steady_clock::now();
 
@@ -132,17 +138,13 @@ void Directory_Explorer(string root, sqlite3* db){
              }
             
           
-
-
-
            
             }
         }
-        
-       
-        
    
     }
+
+   
 }
 
 
@@ -161,6 +163,7 @@ int main()
     cout<<"Do U want to Search In The Database? (Y/N): ";
     string want;
     getline(cin,want);
+    cin.clear();
     if(want.size() &&(want[0]=='y'||want[0]=='Y'))UserWant_To_Search=true;
     else break;
   // searching
@@ -176,11 +179,13 @@ int main()
     while(true){
         cout<<" Do U Want To Traverse a Directory ? (Y/N): ";
         string want;getline(cin,want);
+        cin.clear();
         if(want.size() && (want[0]=='y'||want[0]=='Y')){
     string root;
     cout<<"Enter The Directory U Want to Traverse: ";
 
     getline(cin,root);
+    cin.clear();
 
     start_time = std::chrono::steady_clock::now();
 
@@ -190,7 +195,9 @@ int main()
     catch(const std::exception& e){cerr << "Exception: "<< e.what()<< '\n';}
     
         cout<<endl;
-    cout<<" TOTAL Relevant Files count: "<<file_id<<endl;
+    cout<<" TOTAL Relevant Files count: "<<Processed_files_count<<endl;
+    Processed_files_count=0;//reseting Processed_files_count after finishing one traversal
+
 
 
 

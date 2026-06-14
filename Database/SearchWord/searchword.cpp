@@ -78,7 +78,7 @@ static int callback(
     char** argv,
     char** colNames)
 {
-    if(cnt<=MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH)
+    if(cnt<MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH)
     cout << argv[0] << " (" << argv[1] << " matches)"<< '\n';
     cnt++;
     return 0;

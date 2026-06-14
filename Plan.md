@@ -51,6 +51,31 @@ workflow of code -->
       --> Before Implementing **incremental indexing** it took 7 minutes to do that
           **60 TIMES FASTER**
 
+          now avg word search query time -->300ms 
+
+
+
+
+
+F:\APP DEVELOPMENT -- > first time traverse 4.5 minutes to process --> second time traverse <10 second
+
+06:16 am --> F:\JU SUPER FOLDER --> traversed in <10 sec
+
+
+06:19 am F:\JAVASCRIPT PROJECTS --> traversed in <20 sec 
+
+06:25 am ---> F:\Oops_LLd_HLD  --> Traversed in ABOUT 30-35 sec(newly read &added 200 files in db)
+
+
+
+
+07:08 am --> F:\REACT PROJECTS  --> 1st time traversed in 58 seconds (244 files read & added in db)
+
+07:18  am -->F:\FUTURE_INTERN Company tasks 1st time traveral take 10 sec(30 files read & insert in db)
+
+
+
+
 
 
 user search 

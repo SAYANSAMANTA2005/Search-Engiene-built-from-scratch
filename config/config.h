@@ -6,8 +6,9 @@
 using namespace std;
 const size_t LIMIT = 1024;//1e3
 const int MAX_UNIQUE_WORDS_PER_FILE = 100000;//1e5
-const int MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH=3;//
+const int MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH=0;//
 inline long long file_id = 0;
+const int INTERVAL_OF_PROCESSED_FILE_SHOW=1;//how many files to process at once
 
 
 inline unordered_map<long long,string> file_id_to_path;
