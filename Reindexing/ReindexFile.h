@@ -5,4 +5,4 @@
 
 using namespace std;
 
-void ReindexFile(sqlite3* db,std::string &Path);
+void ReindexFile(sqlite3* db,std::string &Path,int Processed_files_count);

@@ -43,6 +43,7 @@ workflow of code -->
   sends filtered & stemmed words to inverted index 
   --> inverted indexer  sends the words to sql data base for storing &
    later answering of queries --> Implemented Ranked Search of single Word (frequency based ans ordering of file paths, among files containing searched word)
+                          
 
      --> implemeted incremental indexing ( using file Change Detector & last modified time )  startegy that saves the programme to Read & Process a lot of programmes
 
@@ -52,8 +53,11 @@ workflow of code -->
           **60 TIMES FASTER**
 
           now avg word search query time -->300ms 
+      
 
+      --> NOW i also implemented  **Multi Word Search** 
 
+ 
 
 
 
@@ -75,6 +79,49 @@ F:\APP DEVELOPMENT -- > first time traverse 4.5 minutes to process --> second ti
 
 
 
+first time reading -->F:\\ whole disk traversed in 45 min(70 Gb space, 10 lakh+ files read & stored in db)
+2nd time reading --> F:\\ whole disk traversed in 40 seconds (traversed 10 lakh + files, 70 GB memory spaced)
+
+/* another version of this code (15/06/26)   */
+/* code Ran from E Drive*/
+after delting the db & run again --> F:\\ whole disk traversed in 3 min,20 sec   only.
+
+when i Travrsed whole F:\\  2nd time -6:55
+
+current code (Ran from F drive with LIMIT=1e3)
+F:// trveral 2nd time -> 1 minute
+third time trveral --> 16.5 seconds
+F:// --> after deleting 1st trvereal took 4 min 45 sec
+
+
+current code (Ran from F drive with LIMIT=1e4)
+F:// --> after deleting 1st trvereal took 4 min 14 sec
+      ---> 2nd traversal took 14 sec only
+      -->3rd trversal 12.80 sec
+      --> 4th time  11 sec
+
+current code (Ran from F drive with LIMIT=5e4)
+F:// --> after deleting 1st trvereal took  4 min 1 second
+      ---> 2nd traversal took 11 sec only
+     
+
+
+     after updating the sql transaction & sql commit in (Each file's starting --> starts Transcation)
+     (each file's end -->commits )
+16/06/26  3:44 am --> F:// took first time traversal =5 min 3 sec
+                                2nd traversal took = 6sec only
+                                3rd traversal 4.80 sec only
+                                4th traversal 4.5  sec
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -93,7 +140,7 @@ Stemmer (optional)
 Retrieval from Index
   │
   ▼
-Ranking
+Ranking(Term[word] Frequency Only) -- TF
   │
   ▼
 Results

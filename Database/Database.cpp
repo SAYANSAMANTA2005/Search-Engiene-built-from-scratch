@@ -87,7 +87,7 @@ long long GetOrCreateFileId(
     const std::string& path,
     long long modified_time
 )
-{
+{  
     sqlite3_stmt* stmt = nullptr;
 
     //--------------------------------------------------

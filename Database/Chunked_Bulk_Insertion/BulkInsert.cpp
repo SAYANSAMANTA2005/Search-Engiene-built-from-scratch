@@ -27,6 +27,7 @@ void BulkInsert(
         return;
 
     char* err = nullptr;
+/*
 
     sqlite3_exec(
         db,
@@ -35,6 +36,12 @@ void BulkInsert(
         nullptr,
         &err
     );
+
+
+
+
+
+*/
 
     const char* sql =
         "INSERT INTO inverted_index "
@@ -96,6 +103,8 @@ void BulkInsert(
     }
 
     sqlite3_finalize(stmt);
+/*
+
 
     sqlite3_exec(
         db,
@@ -104,4 +113,7 @@ void BulkInsert(
         nullptr,
         &err
     );
+
+*/
+
 }

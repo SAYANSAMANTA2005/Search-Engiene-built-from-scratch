@@ -1,3 +1,48 @@
+
+
+
+
+
+
+
+there is issue with file_id --> it increments by 2 (not by 1) --> all other function related to file_id also gives correct results
+
+
+#Problems --> incresaing size of db reduces search engine performance --> so how to solve this ?
+
+
+1 possible solution is partitioning the db (if db has been > a fixed size), then split the db into multiple db's
+ in a specific folder 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Major Engineering Challenges Faced While Building a Local Search Engine
 
 ## 1. Efficiently Traversing Millions of Files

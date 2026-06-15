@@ -4,11 +4,15 @@
 #include <unordered_map>
 #include <string>
 using namespace std;
-const size_t LIMIT = 1024;//1e3
+const size_t LIMIT = 1e5;//1e5
 const int MAX_UNIQUE_WORDS_PER_FILE = 100000;//1e5
-const int MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH=0;//
+const int MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH=10;//
 inline long long file_id = 0;
-const int INTERVAL_OF_PROCESSED_FILE_SHOW=1;//how many files to process at once
+const int INTERVAL_OF_PROCESSED_FILE_SHOW=100;//how many files to process at once
+const int MAX_LIMIT_OF_STORING_SEARCH_RESULT=10;//in case of multi word search
+
+
+
 
 
 inline unordered_map<long long,string> file_id_to_path;
@@ -66,6 +70,7 @@ SKIP_DIRECTORIES = {
     ".svelte-kit",
     ".turbo",
     "bower_components",
+    ".cache/yarn",
 
     // Git / Version Control
     ".git",
@@ -73,6 +78,23 @@ SKIP_DIRECTORIES = {
     ".gitlab",
     ".svn",
     ".hg",
+
+   // Compilers & Toolchains (Gcc, MinGW, Clang)
+    "Gcc-16",
+    "Gcc-15",
+    "Gcc-14",
+    "Gcc-13",              // <-- NEWLY ADDED
+    "MinGW",
+    "msys64",
+    "msys32",
+    "TDM-GCC-32",
+    "MinGW32",
+    "MinGW64",
+    "LLVM",                // <-- NEWLY ADDED
+    "Clang",               // <-- NEWLY ADDED
+
+
+      
 
     // Python
     "__pycache__",
@@ -87,6 +109,15 @@ SKIP_DIRECTORIES = {
     ".eggs",
     "*.egg-info",
     "htmlcov",
+    "site-packages",      // <-- NEWLY ADDED (Crucial for local pip libraries)
+    "dist-packages",      // <-- NEWLY ADDED
+    ".conda",             // <-- NEWLY ADDED
+    "conda-meta",         // <-- NEWLY ADDED
+    ".ipynb_checkpoints", // <-- NEWLY ADDED (Jupyter notebook caches)
+    "miniconda",          // <-- NEWLY ADDED
+    "miniconda3",         // <-- NEWLY ADDED
+    "anaconda",           // <-- NEWLY ADDED
+    "anaconda3",          // <-- NEWLY ADDED
 
     // C / C++ / Build Folders
     "build",
@@ -102,13 +133,22 @@ SKIP_DIRECTORIES = {
     "Release",
     "Debug",
     "ipch",
+    "vcpkg",
+    ".vcpkg",
+    "vcpkg_installed",   // <-- NEWLY ADDED (Local project dependency caches)
+    ".conan",            // <-- NEWLY ADDED
+    ".conan2",           // <-- NEWLY ADDED
 
-    // Java / Kotlin / JVM
+
+   // .NET & Java / Kotlin / JVM
+    ".nuget",            // <-- NEWLY ADDED (Global C# package storage)
+    "packages",          // <-- NEWLY ADDED
     ".gradle",
     "buildSrc",
     ".target",
     "target",
     "out",
+
 
     // Ruby / PHP / Go
     ".bundle",
@@ -130,7 +170,32 @@ SKIP_DIRECTORIES = {
     ".eclipse",
     ".metadata",
 
-    // Caches & Logs
+
+
+    // Operating Systems & Low-Level Kernels
+    "$Recycle.Bin",
+    "System Volume Information",
+    "Windows",                 // <-- NEWLY ADDED (Prevents deep OS lockup crashes)
+    "Program Files",           // <-- NEWLY ADDED
+    "Program Files (x86)",     // <-- NEWLY ADDED
+    "ProgramData",             // <-- NEWLY ADDED
+    "AppData",                 // <-- NEWLY ADDED
+    "Config.Msi",              // <-- NEWLY ADDED
+    "RECYCLER",
+    ".Trash-1000",
+    ".Trashes",
+    ".fseventsd",
+    ".Spotlight-V100",
+    "usr",                     // <-- NEWLY ADDED
+    "var",                     // <-- NEWLY ADDED
+    "proc",                    // <-- NEWLY ADDED
+    "sys",                     // <-- NEWLY ADDED
+    "dev",                     // <-- NEWLY ADDED
+    "run",                     // <-- NEWLY ADDED
+
+
+
+     // Caches & Logs
     ".cache",
     "logs",
     "log",
@@ -143,17 +208,150 @@ SKIP_DIRECTORIES = {
     ".vagrant",
     ".docker",
 
-    // Operating Systems (Windows / macOS / Linux)
-    "$Recycle.Bin",
-    "System Volume Information",
-    ".Trash-1000",
-    ".Trashes",
-    "RECYCLER",
-    ".fseventsd",
-    ".Spotlight-V100",
+    // VS CODE
+    "vs",
 
-    "vcpkg",
-    ".vcpkg"
+
+
+
+
+
+// ─── Compilers & Toolchains (additions) ───────────────────────────────────
+    "Cygwin",
+    "Cygwin64",
+    "arm-none-eabi",
+    "xtensa-esp32-elf",
+    "riscv32-esp-elf",
+    "x86_64-w64-mingw32",
+
+
+// ─── Rust ─────────────────────────────────────────────────────────────────
+    ".cargo",
+    ".rustup",
+    "target",
+
+
+// ─── Java / JVM (additions) ───────────────────────────────────────────────
+    ".m2",
+    ".ivy2",
+    ".sbt",
+    ".kotlin",
+
+
+// ─── Go ───────────────────────────────────────────────────────────────────
+    ".gopath",
+    "pkg",
+    "mod",
+
+
+// ─── Database Files & Dumps ───────────────────────────────────────────────
+    ".db-journal",
+    "pgdata",
+    "mysql",
+    "redis-data",
+    "mongodb-data",
+    "elasticsearch-data",
+
+
+// ─── Browser & Electron App Caches ────────────────────────────────────────
+    "GPUCache",
+    "ShaderCache",
+    "Code Cache",
+    "CachedData",
+    "blob_storage",
+    "IndexedDB",
+    "Local Storage",
+    "Session Storage",
+    "Service Worker",
+    "CacheStorage",
+
+
+// ─── Windows System (additions) ───────────────────────────────────────────
+    "WinSxS",
+    "SoftwareDistribution",
+    "Prefetch",
+    "SysWOW64",
+    "System32",
+    "Installer",
+    "assembly",
+    "Microsoft.NET",
+    "WpSystem",
+    "WindowsApps",
+    "MSOCache",
+    "$WinREAgent",
+    "$Windows.~BT",
+    "$Windows.~WS",
+    "PerfLogs",
+
+
+// ─── Linux System (additions) ─────────────────────────────────────────────
+    "boot",
+    "lib",
+    "lib64",
+    "sbin",
+    "bin",
+    "etc",
+    "snap",
+    "flatpak",
+    "lost+found",
+
+
+// ─── macOS System (additions) ─────────────────────────────────────────────
+    "Library",
+    "System",
+    "private",
+    "cores",
+    ".DocumentRevisions-V100",
+    ".TemporaryItems",
+    ".PKInstallSandboxManager",
+
+
+// ─── Virtual Machines & Emulators ─────────────────────────────────────────
+    ".VirtualBox",
+    "VirtualBox VMs",
+    ".vmware",
+    "Virtual Machines",
+    "Snapshots",
+    ".qemu",
+
+
+// ─── Game Engines & Asset Pipelines ───────────────────────────────────────
+    "Library",
+    "Temp",
+    ".import",
+    ".godot",
+    "DerivedDataCache",
+    "Intermediate",
+    "Saved",
+    "Binaries",
+
+
+// ─── DevOps & Containers (additions) ──────────────────────────────────────
+    ".minikube",
+    ".kube",
+    ".helm",
+    "__pycache__",
+    ".serverless",
+    ".pulumi",
+    ".ansible",
+
+
+// ─── Misc Build & Tooling ─────────────────────────────────────────────────
+    ".parcel-cache",
+    ".rollup-cache",
+    ".esbuild",
+    ".swc",
+    ".nx",
+    ".angular",
+    "storybook-static",
+    ".storybook-out",
+    ".docusaurus",
+    ".vuepress",
+    "public",
+    ".hugo_build.lock",
+    "_site",
+    ".jekyll-cache",
+
 };
 
 inline const std::unordered_set<std::string> STOP_WORDS = {

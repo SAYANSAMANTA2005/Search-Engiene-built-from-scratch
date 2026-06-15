@@ -1,7 +1,10 @@
 #pragma once
 
 #include <sqlite3.h>
+#include<iostream>
 #include <string>
+#include<utility>
+#include<vector>
 #include <unordered_map>
 /*
 #include "SearchWord/searchword.h"
@@ -40,7 +43,7 @@ void CloseDB(sqlite3* db);
 
 //returns function of "SearchWord/searchword.cpp" file to run 
 
-void search_word(sqlite3* db,std::string &word);
+vector<pair<string,int>> search_single_word(sqlite3* db,string &word);
 
 
 // returns functions of "Chunked_Bulk_Insertion/DeleteFilePostings.cpp" file to run

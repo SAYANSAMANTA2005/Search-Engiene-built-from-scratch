@@ -10,9 +10,16 @@ using namespace std;
 
 
 /// for Faster tokenise remember to keep text len<=1k words or sentence length
+
+
+/*
+
+Tokenizer handeles --> Tokenize + stemming + Normalization   +stopwordfilter
+
+*/
 vector<string> tokenize(const string& text)
 {
-      vector<string> words;
+    vector<string> words;
     string cur;
 
     for(char c : text)

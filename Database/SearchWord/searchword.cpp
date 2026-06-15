@@ -4,6 +4,7 @@
 #include<sqlite3.h>
 #include<string.h>
 #include <chrono>
+#include<vector>
 
 using namespace std;
 
@@ -72,23 +73,32 @@ Console Output
 
 */
 int cnt=0;
+
+
+vector<pair<string,int>>SearchWordResult;
+
+
+
 static int callback(
     void* data,
     int argc,
     char** argv,
     char** colNames)
 {
-    if(cnt<MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH)
-    cout << argv[0] << " (" << argv[1] << " matches)"<< '\n';
+   // if(cnt<MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH)
+   // cout << argv[0] << " (" << argv[1] << " matches)"<< '\n';
+    if( cnt<MAX_LIMIT_OF_STORING_SEARCH_RESULT){
+        SearchWordResult.push_back(make_pair(string(argv[0]), stoi(string(argv[1]))));//it stores the sorted search result of a word
+    }
+    
     cnt++;
     return 0;
 }
 
-void search_word(sqlite3* db,string &word){
+vector<pair<string,int>> search_single_word(sqlite3* db,string &word){
 
+   SearchWordResult.clear();
 
-cout<<endl;
-cout<<" Top [ " << MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH << " ] files found :"<<endl;
 
 
 
@@ -99,7 +109,7 @@ start_time_db = std::chrono::steady_clock::now();
         "JOIN inverted_index "
         "ON files.file_id = inverted_index.file_id "
         "WHERE word = '" + word + "' "
-        "ORDER BY frequency DESC;";
+        "ORDER BY frequency DESC, files.file_id ASC;";
 
 
      char* err=nullptr;
@@ -109,7 +119,10 @@ start_time_db = std::chrono::steady_clock::now();
         cerr << "SQL = " << sql << '\n';
         sqlite3_free(err);
      }
-         
+    
+    //clearing       
+
+ 
            
               //printing res
             auto now = std::chrono::steady_clock::now();
@@ -118,14 +131,16 @@ start_time_db = std::chrono::steady_clock::now();
             std::chrono::duration_cast<std::chrono::milliseconds>( now - start_time_db);
             cout<<endl;
 
-            cout<< "      Found in "<< cnt <<" files\n";
-            cnt=0;
+            cout<< "   Word : ["<< word << "  ]    Found in "<< cnt <<" files\n";
+            cnt=0;//reseting cnt for next call
 
-            cout<< "           Searched Word in  "<< 
-            " Time Taken:" << elapsed.count()<< " ms"<< '\n';
+            cout<< "     Searched Word  : ["<< word << "  ]   Time Taken:" << elapsed.count()<< " ms"<< '\n';
 
             
             start_time_db = now;
-            
+
+
+
+       return   SearchWordResult;     
 
 }

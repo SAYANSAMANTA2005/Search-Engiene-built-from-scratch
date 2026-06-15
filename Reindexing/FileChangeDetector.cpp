@@ -4,8 +4,12 @@
 #include<sqlite3.h>
 #include<string.h>
 #include "../Database/ModifiedTime/ModifiedTime.h"
-
+#include "../Database/Database.h"
+#include "../config/config.h"
+//#include "../Crawler.cpp"
 using namespace std;
+
+//extern int Processed_files_count;
 
 /*
 Need_To_Change_OR_Create_indexing -->
@@ -31,6 +35,7 @@ bool Need_To_Change_OR_Create_indexing(sqlite3* db,std::string &Path){
 
           if(((DB_Modified_time== -1)||(llabs(modified_time)<DB_Modified_time))){
         //   cout<<"Do modifiy(true)"<<endl;
+
              return true;// u need to index this file
           }
           

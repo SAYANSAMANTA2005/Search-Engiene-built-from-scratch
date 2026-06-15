@@ -52,6 +52,25 @@ void Read_File2(string path,sqlite3* db,long long file_id){
 
     string word;
     string buffer;
+
+
+   
+    
+    char* err = nullptr;
+//starting SQLite Transaction
+
+    sqlite3_exec(
+        db,
+        "BEGIN TRANSACTION;",
+        nullptr,
+        nullptr,
+        &err
+    );
+
+
+
+
+
     while(file>>word){
         //adding each word to buffer string & creating space btw words by " "
       buffer+=word+" ";
@@ -95,5 +114,20 @@ void Read_File2(string path,sqlite3* db,long long file_id){
     if(!freq.empty()){
         Freeing_map(db,file_id,freq);
     }
+
+
     file.close();
+
+
+//Sql Commit 
+    sqlite3_exec(
+        db,
+        "COMMIT;",
+        nullptr,
+        nullptr,
+        &err
+    );
+
+
+
 }

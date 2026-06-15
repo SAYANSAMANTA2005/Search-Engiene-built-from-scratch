@@ -2,8 +2,11 @@
 #include<sqlite3.h>
 #include<iostream>
 #include<string>
+#include<vector>
+#include<utility>
+#include<vector>
 using namespace std;
 
 
-void Search_in_Database(sqlite3* db,bool UserWant_To_Search);
+vector<pair<string,int>> Search_Single_Word_in_Database(sqlite3* db);
     

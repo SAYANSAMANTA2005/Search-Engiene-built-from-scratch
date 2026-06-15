@@ -12,6 +12,8 @@ Database/Chunked_Bulk_Insertion/BulkInsert.cpp ^
 Database/Chunked_Bulk_Insertion/DeleteFilePostings.cpp ^
 Database/ModifiedTime/ModifiedTime.cpp ^
 Search/Single_Word/Search.cpp ^
+Search/Multi_Word/Multi_Search.cpp ^
+Search/Specify_Search_Handeler.cpp ^
 Reindexing/FileChangeDetector.cpp ^
 Reindexing/ReindexFile.cpp ^
 -I include -L lib -std=c++17 -lsqlite3 -static -o search_engine.exe
