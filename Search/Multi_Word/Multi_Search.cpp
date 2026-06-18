@@ -5,12 +5,15 @@
 #include"../../config/config.h"
 #include "../../tokenize/tokeniser.h"
 #include  "../Single_Word/Search.h"
+#include "And/and.h"
 
 #include<sqlite3.h>
 #include<iostream> 
-#include<string.h>
+#include<string>
 #include<cctype>
 #include<vector>
+#include <tuple>
+#include<algorithm>
 
 using namespace std;
 
@@ -57,7 +60,7 @@ void printString(std::string &s){
    cout<<" ";
 }
     
- vector<pair<string,int>> Multi_Search(sqlite3* db){
+vector<pair<string,int>> Multi_Search(sqlite3* db){
 
 
 
@@ -71,24 +74,30 @@ void printString(std::string &s){
 
 
     vector<string>words=tokenize(s);
-    vector<vector<pair<string,int>>>All_Word_Search_Results;
+    vector<vector<tuple<int,int,string>>>All_Word_Search_Results;
     for(auto &word:words){
         //for each word i want Single_Word_Search's ans
         //it will be stored in a vector of vector of pairs
-        
-        All_Word_Search_Results.push_back(search_single_word(db,word));
+        //search_single_word_give_result_by_file_id
+        All_Word_Search_Results.push_back(search_single_word_give_result_by_file_id(db,word));
     }
     
-    vector<pair<string,int>>Multi_Search_Result=All_Word_Search_Results[0];
+    vector<pair<string,int>>Multi_Search_Result=intersection(All_Word_Search_Results);
 
     /*
-    NOW thi will call "AND","OR" then it will return the final search result of multi-word search query
+    NOW thi will call "OR" then it will return the final search result of multi-word search query
     
 
-    THE AND,OR --> return vector<pair<string,int>> ;
+    THE OR --> return vector<pair<string,int>> ;
 
     this i will implement later
     */
+
+    // Rank the results based on frequncy 
+    sort(Multi_Search_Result.begin(),Multi_Search_Result.end(),[](pair<string,int>A,pair<string,int>B){
+      if(A.second==B.second)return A.first<B.first;  //lexicographical order for same frequency
+      return A.second>B.second;
+    });
 
 
      cout<<"<<<<<<<<<<--- Searched Words :  [ ";

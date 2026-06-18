@@ -26,7 +26,7 @@ vector<string> tokenize(const string& text)
     {
         //checks if alphanumeric character or not 
         //REMOVES PUNCUCATIONS ,BRACKETS ETC
-        if(isalnum(c))
+        if(isalnum(c) && (!(c>='0' && c<='9')))
         {
             //normalise words
             cur += tolower(c);

@@ -6,12 +6,13 @@
 #include"../Database/Database.h"
 #include "Multi_Word/Multi_Search.h"
 #include "Single_Word/Search.h"
+#include "Fuzzy_Search/Fuzzy_handeler.h"
 #include "../config/config.h"
 using namespace std;
 
 
 void Specify_Search_Handeler(sqlite3* db){
-    cout<<"Enter (M) if you want to search Multi-word / Enter (S) if you want to search Single-word : "<<endl;
+    cout<<"Enter (M) if you want to search Multi-word / Enter (S) if you want to search Single-word / Enter (F) if u want to Fuzzy Search Word : "<<endl;
     string choice;
     getline(cin,choice);
     cin.clear();
@@ -21,6 +22,9 @@ void Specify_Search_Handeler(sqlite3* db){
     }
     else if(choice.size() &&(choice[0]=='s'||choice[0]=='S')){
         Final_Search_Result_After_Processing=  Search_Single_Word_in_Database(db);
+    }
+    else if(choice.size() &&(choice[0]=='f'||choice[0]=='F')){
+        Final_Search_Result_After_Processing=  fuzzy_search_handeler(db);
     }
     else{
         cout<<"Invalid Choice\n";

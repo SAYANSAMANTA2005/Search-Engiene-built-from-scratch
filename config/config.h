@@ -9,9 +9,11 @@ const int MAX_UNIQUE_WORDS_PER_FILE = 100000;//1e5
 const int MAX_NO_OF_FILES_TO_SHOW_IN_SEARCH=10;//
 inline long long file_id = 0;
 const int INTERVAL_OF_PROCESSED_FILE_SHOW=100;//how many files to process at once
-const int MAX_LIMIT_OF_STORING_SEARCH_RESULT=10;//in case of multi word search
+const int MAX_LIMIT_OF_STORING_SEARCH_RESULT=10;//in case of single word search
 
-
+const int MAX_LIMIT_OF_STORING_MULTI_WORD_SEARCH_RESULT=100;
+const int  MAX_EDIT_DISTANCE = 2;
+const int max_no_of_fuzzy_search_suggestions=10;
 
 
 

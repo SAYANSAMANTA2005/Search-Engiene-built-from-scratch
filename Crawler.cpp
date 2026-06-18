@@ -192,15 +192,19 @@ int main()
 
 //user input for searching or not
    while(true){
-      bool UserWant_To_Search=false;
+
     cout<<"Do U want to Search In The Database? (Y/N): ";
     string want;
     getline(cin,want);
     cin.clear();
-    if(want.size() &&(want[0]=='y'||want[0]=='Y'))UserWant_To_Search=true;
+
+
+    if(want.size() &&(want[0]=='y'||want[0]=='Y'))
+    {Specify_Search_Handeler(db);}
+
     else break;
   // searching --> we only search in the database if user wants to search
-    Specify_Search_Handeler(db);
+
     
    }
 
