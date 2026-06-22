@@ -1,4 +1,4 @@
-# Local Search Engine Project
+# Local Search Engine Project( 100 % CODE WRITTEN BY ME)
 
 This is a C++ search engine project built from scratch using SQLite for data storage. It is designed to be fully standalone and portable.
 
