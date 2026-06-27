@@ -44,8 +44,10 @@ workflow of code -->
   --> inverted indexer  sends the words to sql data base for storing &
    later answering of queries --> Implemented Ranked Search of single Word (frequency based ans ordering of file paths, among files containing searched word)
                           
-
+ **INCREMENTAL INDEXING** -->
+     if new file created/existing file changed after last time u traversed the file, then --> first i am deleting all the rows of older file's(the file chnaged) path [ This steps ensures that after a file is changed --> before reindexing the file ,**all records of precious are removed** ,hence my search_engine.db file does always gives u the search results based on the last time u traversed the directory/file]
      --> implemeted incremental indexing ( using file Change Detector & last modified time )  startegy that saves the programme to Read & Process a lot of programmes
+     
 
 
       ** HUGE ACHIVEMENT** --> AFTER APPLYING THIS it processed a 3lakh+ files's containing Folder(16.5 Gb Folder) in 7.5 seconds
@@ -60,7 +62,7 @@ workflow of code -->
 
       --> NOW i also implemented  **Multi Word Search** 
 
-
+     --> also implemented **Fuzzy_search** by trie (used max edit distance + trie approach for collecting & showing  all possible words that user intented to            search)
 
       SEARCH LOGIC---->
 
