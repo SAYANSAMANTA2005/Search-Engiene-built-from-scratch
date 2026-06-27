@@ -1,3 +1,14 @@
+Where it'll get exposed under interview pressure
+An interviewer who actually probes will find these soft spots:
+
+"Why C++ over Python?" — your own Plan.md has a slightly defensive answer to this ("doesn't require C++ for performance, but..."). That's honest, but be ready for a follow-up like "show me where it would actually bottleneck in Python" — if you can't answer that crisply it looks rehearsed.
+"What happens if a file is deleted from disk?" — currently nothing; stale rows stay forever. This is a textbook "tell me about a limitation" question and you should have a ready answer (you already do, in problems.md — that's good, just be ready to say it out loud).
+"How do you rank results?" — pure term frequency. Any interviewer who's seen TF-IDF will ask why you didn't normalize for document length or term rarity. Right now your honest answer is "I haven't gotten there yet," which is fine once, but you should know why TF-IDF matters, not just that it's on your roadmap.
+"Walk me through your stemmer" — it's a 15-line suffix stripper, not real stemming. If asked "does this stemmer handle irregular words?" the honest answer is no, and that's a fair thing to be asked to defend.
+"Why is file_id incrementing by 2?" — this is in your own problems.md as an unsolved bug. If asked to debug live, this is a good one to actually fix before interviews, since "I have an unexplained off-by-N bug in production" is not a great thing to volunteer.
+No tests. Fresher interviewers increasingly ask "how did you verify correctness?" — right now your evidence is manual runs and println timing, not unit tests.
+
+
 # Directory Traversal Optimization
 **Crawler.cpp**
 
