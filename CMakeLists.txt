@@ -68,6 +68,7 @@ add_library(search_engine_lib STATIC
 # using a path relative to the repo root.
 target_include_directories(search_engine_lib PUBLIC
     ${CMAKE_SOURCE_DIR}
+    ${sqlite3_SOURCE_DIR}
 )
 
 target_link_libraries(search_engine_lib PUBLIC SQLite::SQLite3)
@@ -89,9 +90,14 @@ if(BUILD_TESTS)
     enable_testing()
 
     add_executable(run_tests
-        tests/test_main.cpp
-        tests/test_tokenizer.cpp
-        # add new tests/test_*.cpp files here as you write them
+        Tests/test_main.cpp
+        Tests/test_tokenizer.cpp
+        Tests/test_stemmer.cpp
+        Tests/test_trie.cpp
+        Tests/test_intersection.cpp
+        Tests/test_database.cpp
+        Tests/test_file_change_detector.cpp
+        # add new Tests/test_*.cpp files here as you write them
     )
     target_link_libraries(run_tests PRIVATE search_engine_lib)
 
