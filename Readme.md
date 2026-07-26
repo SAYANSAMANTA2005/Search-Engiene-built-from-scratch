@@ -1,3 +1,6 @@
+# THERE IS A PROBLEM IN CMAKE AS OF 27/07/2026 -- IF BUILD WITH CMAKE , CURRENTLY AVALABLE WORDS IN DATABASE CAN NOT BE FETCHED WITHOUT TRAVERSING THAT DIRECTORY AGAIN
+** SO for Now RUN the programme in windows by -->  ./run **
+
 # Building the Search Engine (Cross-Platform)
 
 This project uses **CMake** as its build system, allowing it to be built
