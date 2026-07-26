@@ -8,7 +8,7 @@
 #include "../../tokenize/tokeniser.h"     // tokenize()
 #include "../../Database/Database.h"      // InsertWord()
 #include "../Readfile.h"                  // corresponding header
-#include "../config/config.h"
+#include "../../config/config.h"
 
 using namespace std;
 using namespace std::filesystem;

@@ -1,5 +1,7 @@
 #include <iostream>
-#include<bits/stdc++.h>
+#include <vector>
+#include <string>
+#include <fstream>
 #include <filesystem>
 #include "../config/config.h"
 #include "../tokenize/tokeniser.h"

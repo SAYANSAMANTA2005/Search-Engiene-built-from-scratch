@@ -1,7 +1,7 @@
 # Exclude build artifacts, executables, databases, and CMakeLists.txt
 *.exe
 *.db
-CMakeLists.txt
+build/
 
 # Do not ignore sqlite3 binaries/headers
 !sqlite3.dll

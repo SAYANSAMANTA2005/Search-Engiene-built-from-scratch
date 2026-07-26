@@ -2,39 +2,34 @@
 #include <string>
 #include <vector>
 #include "../Search/Fuzzy_Search/Fuzzy_Trie/Fuzzy_Trie.h"
+#include "check.h"
 
-using namespace std;
+static bool contains_word(const std::vector<std::pair<std::string,int>>& results, const std::string& word) {
+    for (const auto& p : results) {
+        if (p.first == word) return true;
+    }
+    return false;
+}
 
 void test_trie() {
-    cout << "\n--- Testing Fuzzy Trie ---\n";
+    std::cout << "\n--- Testing Fuzzy Trie ---\n";
+
     Trie trie;
-    
-    cout << "Inserting sample words into Trie: 'database', 'hello', 'world', 'index', 'test'\n";
-    string words[] = {"database", "hello", "world", "index", "test"};
-    for (const string& w : words) {
-        string copy_w = w; // trie.insert takes non-const reference in this codebase
+    std::string words[] = {"database", "hello", "world", "index", "test"};
+    for (const std::string& w : words) {
+        std::string copy_w = w; // trie.insert takes a non-const reference in this codebase
         trie.insert(copy_w, 1);
     }
-    
-    cout << "Enter a word to fuzzy search (or type 'exit' to stop):\n";
-    string target;
-    while (true) {
-        cout << "Word > ";
-        if (!(cin >> target)) break;
-        if (target == "exit") break;
-        
-        cout << "Max edit distance (e.g. 1 or 2) > ";
-        int k;
-        if (!(cin >> k)) break;
-        
-        vector<pair<string, int>> results = trie.fuzzy_search(target, k);
-        cout << "Results:\n";
-        if (results.empty()) {
-            cout << " - No matches found.\n";
-        } else {
-            for (const auto& p : results) {
-                cout << " - " << p.first << " (freq: " << p.second << ")\n";
-            }
-        }
-    }
+
+    // Exact match, 0 edit distance
+    auto exact = trie.fuzzy_search("hello", 0);
+    check(contains_word(exact, "hello"), "fuzzy_search('hello', 0) finds exact match 'hello'");
+
+    // One-character typo, edit distance 1
+    auto typo = trie.fuzzy_search("helo", 1);
+    check(contains_word(typo, "hello"), "fuzzy_search('helo', 1) finds 'hello' within edit distance 1");
+
+    // Something with no close match in the trie should return nothing
+    auto none = trie.fuzzy_search("zzzzzzzzzz", 1);
+    check(none.empty(), "fuzzy_search('zzzzzzzzzz', 1) returns no matches");
 }

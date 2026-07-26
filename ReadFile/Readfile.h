@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
-#include<bits/stdc++.h>
+#include <vector>
+#include <string>
+#include <fstream>
 #include <filesystem>
 #include "../tokenize/tokeniser.h"
 #include "ChunkedProcessing/Chunked_Reading.h"

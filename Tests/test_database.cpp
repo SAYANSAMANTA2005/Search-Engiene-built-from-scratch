@@ -5,47 +5,43 @@
 #include "../Database/Database.h"
 #include "../Database/Chunked_Bulk_Insertion/BulkInsert.h"
 #include "../Database/Chunked_Bulk_Insertion/DeleteFilePostings.h"
-
-using namespace std;
+#include "check.h"
 
 void test_database() {
-    cout << "\n--- Testing Database Operations ---\n";
-    cout << "Opening an isolated in-memory database...\n";
-    
+    std::cout << "\n--- Testing Database Operations ---\n";
+
     sqlite3* db = nullptr;
-    if (sqlite3_open(":memory:", &db) != SQLITE_OK) {
-        cout << "Failed to open in-memory database.\n";
-        return;
-    }
-    
-    cout << "Creating tables...\n";
+    bool opened = (sqlite3_open(":memory:", &db) == SQLITE_OK);
+    check(opened, "opened isolated in-memory database");
+    if (!opened) return;
+
     CreateTables(db);
-    
-    cout << "Simulating crawling a file '/dummy/path.txt' with modified time 12345...\n";
+
     long long file_id = GetOrCreateFileId(db, "/dummy/path.txt", 12345);
-    cout << "Assigned File ID in DB: " << file_id << "\n";
-    
-    cout << "Bulk inserting words for this file (hello: 3, world: 2)...\n";
-    unordered_map<string, int> freqs = {{"hello", 3}, {"world", 2}};
+    check(file_id > 0, "GetOrCreateFileId assigns a positive file id");
+
+    std::unordered_map<std::string, int> freqs = {{"hello", 3}, {"world", 2}};
     BulkInsert(db, file_id, freqs);
-    
-    cout << "Querying DB to verify 'hello' frequency...\n";
-    sqlite3_stmt* stmt;
+
+    sqlite3_stmt* stmt = nullptr;
     sqlite3_prepare_v2(db, "SELECT frequency FROM inverted_index WHERE word='hello'", -1, &stmt, nullptr);
-    if (sqlite3_step(stmt) == SQLITE_ROW) {
-        cout << "Found 'hello' with frequency: " << sqlite3_column_int(stmt, 0) << "\n";
-    }
+    bool found_hello = (sqlite3_step(stmt) == SQLITE_ROW);
+    int hello_freq = found_hello ? sqlite3_column_int(stmt, 0) : -1;
     sqlite3_finalize(stmt);
-    
-    cout << "Deleting postings for File ID " << file_id << " (simulating re-indexing)...\n";
+
+    check(found_hello, "'hello' posting exists after BulkInsert");
+    check_eq<int>(hello_freq, 3, "'hello' frequency is 3 after BulkInsert");
+
     DeleteFilePostings(db, file_id);
-    
+
     sqlite3_prepare_v2(db, "SELECT COUNT(*) FROM inverted_index", -1, &stmt, nullptr);
+    int remaining = -1;
     if (sqlite3_step(stmt) == SQLITE_ROW) {
-        cout << "Remaining postings in DB: " << sqlite3_column_int(stmt, 0) << "\n";
+        remaining = sqlite3_column_int(stmt, 0);
     }
     sqlite3_finalize(stmt);
-    
+
+    check_eq<int>(remaining, 0, "no postings remain after DeleteFilePostings");
+
     sqlite3_close(db);
-    cout << "Database closed safely.\n";
 }
