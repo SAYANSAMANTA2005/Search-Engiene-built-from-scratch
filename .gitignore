@@ -1,33 +1,9 @@
-# ── Build artifacts ──────────────────────────────────
+# Exclude build artifacts, executables, databases, and CMakeLists.txt
 *.exe
-*.obj
-*.o
-*.a
-*.pdb
-
-# ── SQLite binaries (now built from source via CMake) ─
-sqlite3.dll
-lib/sqlite3.lib
-include/sqlite3.h
-include/sqlite3-vcpkg-config.h
-
-# ── Runtime database ─────────────────────────────────
 *.db
+CMakeLists.txt
 
-# ── CMake build folder ───────────────────────────────
-build/
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-
-# ── IDE / OS junk ────────────────────────────────────
-.vs/
-.vscode/
-*.swp
-*~
-Thumbs.db
-Desktop.ini
-.DS_Store
-
-# ── Test runner binary ───────────────────────────────
-Tests/run_tests.exe
+# Do not ignore sqlite3 binaries/headers
+!sqlite3.dll
+!lib/sqlite3.lib
+!include/
